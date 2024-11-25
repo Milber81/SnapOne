@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/bottomSheetDragHandleView"
+        style="@style/Widget.Material3.BottomSheet.DragHandle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Add new city"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edtCityName"
+        android:hint="City name"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edtLatitude"
+        android:hint="Latitude"
+        android:layout_marginBottom="10dp"
+        android:inputType="numberDecimal"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edtLongitude"
+        android:hint="Longitude"
+        android:layout_marginBottom="10dp"
+        android:inputType="numberDecimal"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edtState"
+        android:hint="State"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edtStateAbbr"
+        android:hint="State abbr"
+        android:maxLength="2"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/bntApply"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_marginBottom="10dp"
+        android:text="Add"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

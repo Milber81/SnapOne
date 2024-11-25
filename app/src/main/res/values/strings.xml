@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">WeatherProject</string>
+
+    <string name="gps_button_descriptor">gps icon</string>
+    <string name="menu_icon_descriptor">Menu Icon</string>
+    <string name="Icon_weather_descriptor">Current weather icon</string>
+    <string name="next_day_icon_descriptor">Next day icon</string>
+
+    <string name="thermal_sensation">Thermal sensation</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="next_4_days">Next 4 Days</string>
+
+    <string name="search_hint">Search city…</string>
+
+    <string name="noInternetMessage">No internet connection. Please connect to a network.</string>
+    <string name="firstStartText">First, look for a city in the browser or with the GPS button</string>
+
+    <string name="temperature"> %1$dº</string>
+    <string name="city_name">%1$s, %2$s</string>
+    <string name="humidity_template"> %1$d%%</string>
+    <string name="wind_speed_imperial">%1$d mph</string>
+    <string name="wind_speed">%1$d m/s</string>
+
+    <string name="settings_label">Settings</string>
+
+    <string name="choose_language">Choose a language</string>
+    <string name="language">Language</string>
+    <string name="english_language">English</string>
+    <string name="spanish_language">Spanish</string>
+
+    <string name="choose_a_metric_unit">Choose a metric unit</string>
+    <string name="measurement_unit">Measurement Unit</string>
+    <string name="celsius">Celsius (ºC)</string>
+    <string name="fahrenheit">Fahrenheit (ºF)</string>
+    <string name="kelvin">Kelvin (K)</string>
+
+    <string name="more_locations">More locations</string>
+    <string name="touch_to_save_location">Search city</string>
+
+    <string-array name="days_of_week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+
+    <string-array name="metric_units">
+        <item>@string/celsius</item>
+        <item>@string/fahrenheit</item>
+        <item>@string/kelvin</item>
+    </string-array>
+
+</resources>
