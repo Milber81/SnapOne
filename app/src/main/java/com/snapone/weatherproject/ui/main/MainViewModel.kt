@@ -10,6 +10,7 @@ import com.snapone.weatherproject.base.ListMapper
 import com.snapone.weatherproject.base.Merger
 import com.snapone.weatherproject.data.models.WeatherResponse
 import com.snapone.weatherproject.domain.City
+import com.snapone.weatherproject.domain.ForecastData
 import com.snapone.weatherproject.domain.repositories.CitiesRepository
 import com.snapone.weatherproject.usecases.GetCityInfoUseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -25,7 +26,7 @@ class MainViewModel(
     private val getCityInfoUseCase: GetCityInfoUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val listMapper: ListMapper<City, CityViewItem>,
-    private val merger: Merger<WeatherResponse, City>
+    private val merger: Merger<ForecastData, City>
 ) : ViewModel() {
 
     private val singleMapper = CityViewMapper()
@@ -67,7 +68,7 @@ class MainViewModel(
         viewModelScope.launch {
             println("ooooo ??????? $city")
             try {
-                val cityInfo = getCityInfoUseCase.getCityInfo(city.latitude, city.longitude)
+                val cityInfo = getCityInfoUseCase.getCityInfo(city)
                 val _city = merger.merge(cityInfo, city)
                 _cityUpdate.emit(singleMapper.map(_city))
                 citySet.add(_city)

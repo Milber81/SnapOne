@@ -19,6 +19,24 @@ fun interface ListMapper<in Model : Any, out View : Any> {
     fun map(items: List<Model>): List<View>
 }
 
+/**
+ * A functional interface for mapping a single DTO (Data Transfer Object) to a Model.
+ * This can be used for transforming data between layers or different representations.
+ *
+ * @param Dto the type of the input data (Data Transfer Object)
+ * @param Model the type of the output model after transformation
+ */
+fun interface SingleMapper<in Dto: Any, out Model: Any> {
+
+    /**
+     * Transforms a given DTO to the corresponding Model.
+     * This method should define the logic for mapping one type to another.
+     *
+     * @param items the input data of type [Dto] to be mapped
+     * @return the transformed data of type [Model]
+     */
+    fun map(items: Dto): Model
+}
 
 /**
  * A functional interface for merging two models of potentially different types.

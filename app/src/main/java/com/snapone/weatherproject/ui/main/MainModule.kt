@@ -1,6 +1,7 @@
 package com.snapone.weatherproject.ui.main
 
 import com.snapone.weatherproject.data.datasources.openweather.CityInfoService
+import com.snapone.weatherproject.data.mappers.ForecastDataDtoMapper
 import com.snapone.weatherproject.di.CoroutinesModule
 import com.snapone.weatherproject.di.DataStoreModule
 import com.snapone.weatherproject.di.NetworkModule
@@ -10,7 +11,8 @@ object MainModule {
 
     private val apiCityInfoService = CityInfoService(
         NetworkModule.provideApiClient(),
-        CoroutinesModule.provideCoroutineDispatcher()
+        CoroutinesModule.provideCoroutineDispatcher(),
+        ForecastDataDtoMapper()
     )
 
     fun provideMainViewModel(): MainViewModel {

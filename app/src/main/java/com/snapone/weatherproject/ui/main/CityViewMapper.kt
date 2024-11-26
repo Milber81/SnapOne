@@ -25,26 +25,8 @@ data class CityViewItem(
     }
 }
 
-class CityMerger : Merger<WeatherResponse, City> {
-    override fun merge(item1: WeatherResponse, item2: City): City {
-        // Map the weather data from the WeatherResponse to the City forecastData
-        val weatherDescription = item1.weather.firstOrNull()?.description ?: "Unknown weather"
-        val icon = item1.weather.firstOrNull()?.icon ?: ""
-        val currentTemperature = item1.main.temp
-        val lowTemperature = item1.main.temp_min
-        val highTemperature = item1.main.temp_max
-        val precipitation = item1.rain?.`1h`?.toInt() ?: 0 // rain in last 1 hour (default to 0 if not available)
-
-        // Create the forecastData based on the weather data from the response
-        val forecastData = ForecastData(
-            weather = weatherDescription,
-            icon = icon,
-            currentTemperature = currentTemperature.toInt(),
-            low = lowTemperature.toInt(),
-            high = highTemperature.toInt(),
-            precipitation = precipitation
-        )
-
+class CityMerger : Merger<ForecastData, City> {
+    override fun merge(forecastData: ForecastData, item2: City): City {
         // Update the City object with the new forecastData
         val itm = item2.copy(forecastData = forecastData)
         return itm

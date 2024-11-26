@@ -1,6 +1,9 @@
 package com.snapone.weatherproject.data.datasources.openweather
 
+import com.snapone.weatherproject.base.SingleMapper
 import com.snapone.weatherproject.data.models.WeatherResponse
+import com.snapone.weatherproject.domain.City
+import com.snapone.weatherproject.domain.ForecastData
 import com.snapone.weatherproject.domain.repositories.CityInfoRepository
 import com.snapone.weatherproject.utils.API_KEY
 import com.snapone.weatherproject.utils.LANG
@@ -20,7 +23,8 @@ import retrofit2.Response
  */
 class CityInfoService(
     private val api: ApiClient,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: SingleMapper<WeatherResponse, ForecastData>
 ) : CityInfoRepository {
 
     /**
@@ -31,11 +35,11 @@ class CityInfoService(
      * @return A [WeatherResponse] object containing details of the city.
      * @throws NullPointerException if the API response body is null.
      */
-    override suspend fun getCityInfo(latitude: Float, longitude: Float): WeatherResponse {
-        return withContext(dispatcher) { // Ensures network operations run on the specified dispatcher.
+    override suspend fun getCityWeatherInfo(city: City): ForecastData {
+        return withContext(dispatcher) {
             val response: Response<WeatherResponse> =
-                api.getCityInfo(latitude, longitude, API_KEY, UNITS, LANG)
-            response.body()!! // Assumes a non-null response body. Ensure API guarantees this or handle null cases.
+                api.getCityInfo(city.latitude, city.longitude, API_KEY, UNITS, LANG)
+            mapper.map(response.body()!!)
         }
     }
 }
