@@ -40,6 +40,8 @@ class AddCityFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.edtCityName.requestFocus()
+
         binding.bntApply.setOnClickListener {
 
             val cityName = binding.edtCityName.text

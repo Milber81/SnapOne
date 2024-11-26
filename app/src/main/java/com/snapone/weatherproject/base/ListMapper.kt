@@ -35,7 +35,7 @@ fun interface SingleMapper<in Dto: Any, out Model: Any> {
      * @param items the input data of type [Dto] to be mapped
      * @return the transformed data of type [Model]
      */
-    fun map(items: Dto): Model
+    fun map(item: Dto): Model
 }
 
 /**

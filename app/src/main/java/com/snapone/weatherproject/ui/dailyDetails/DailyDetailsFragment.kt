@@ -11,6 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.snapone.weatherproject.R
 import com.snapone.weatherproject.databinding.FragmentDailyDetailsBinding
 import com.snapone.weatherproject.ui.UiModule
+import com.snapone.weatherproject.ui.helpers.getImageUrl
+import com.snapone.weatherproject.ui.helpers.loadIcon
 
 class DailyDetailsFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentDailyDetailsBinding
@@ -37,6 +39,8 @@ class DailyDetailsFragment : BottomSheetDialogFragment() {
             binding.averageTemperature.text = it.forecastData?.currentTemperature.toString()
             binding.lowestTemp.text = it.forecastData?.low.toString()
             binding.highestTemp.text = it.forecastData?.high.toString()
+            val url = getImageUrl(it.forecastData?.icon ?: "")
+            loadIcon(url, binding.dayImage)
         }
     }
 

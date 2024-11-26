@@ -35,8 +35,8 @@ class MainViewModel(
         mutableSetOf()
     }
 
-    private val _city = MutableSharedFlow<City>()
-    val city: SharedFlow<City> get() = _city
+    private val _city = MutableSharedFlow<City?>()
+    val city: SharedFlow<City?> get() = _city
 
     private val _getCities = MutableStateFlow<List<CityViewItem>>(emptyList())
     val cities: StateFlow<List<CityViewItem>> get() = _getCities
@@ -97,8 +97,13 @@ class MainViewModel(
 
     fun getCity(cityViewItem: CityViewItem){
         viewModelScope.launch {
-            val mCity = citySet.first { it.name == cityViewItem.name }
-            _city.emit(mCity)
+            if(citySet.isEmpty()){
+                _city.emit(null)
+            }
+            else {
+                val mCity = citySet.first { it.name == cityViewItem.name }
+                _city.emit(mCity)
+            }
         }
     }
 

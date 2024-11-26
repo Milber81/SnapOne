@@ -173,16 +173,19 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.city.collect { city ->
-                sharedViewModel.data.postValue(city)
-                this.cancel() // Cancels the collection
-                val dailyDetailsFragment = DailyDetailsFragment()
+                city?.let {
+                    sharedViewModel.data.postValue(city)
+                    this.cancel() // Cancels the collection
+                    val dailyDetailsFragment = DailyDetailsFragment()
 
-                if (dailyDetailsFragment.isAdded) {
-                    dailyDetailsFragment.dismiss()
+                    if (dailyDetailsFragment.isAdded) {
+                        dailyDetailsFragment.dismiss()
+                    }
+
+                    dailyDetailsFragment.show(supportFragmentManager, DailyDetailsFragment.TAG)
+                } ?: run {
+                    Toast.makeText(this@MainActivity, "Forecast data not available", Toast.LENGTH_LONG).show()
                 }
-
-                dailyDetailsFragment.show(supportFragmentManager, DailyDetailsFragment.TAG)
-
             }
         }
         viewModel.getCity(cityViewItem)

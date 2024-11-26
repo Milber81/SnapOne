@@ -2,7 +2,6 @@ package com.snapone.weatherproject.ui.main
 
 import com.snapone.weatherproject.base.ListMapper
 import com.snapone.weatherproject.base.Merger
-import com.snapone.weatherproject.data.models.WeatherResponse
 import com.snapone.weatherproject.domain.City
 import com.snapone.weatherproject.domain.ForecastData
 

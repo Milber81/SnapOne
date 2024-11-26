@@ -39,7 +39,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/thermometer_minus_icon"
         app:tint="@color/card_text"
-        tools:tint="@android:color/black">
+        tools:tintdob="@android:color/black">
 
     </ImageView>
 
@@ -52,43 +52,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheetDragHandleView"
-        tools:text="Monday"
+        tools:text="Sabac"
         tools:textColor="@android:color/black" />
 
     <ImageView
         android:id="@+id/dayImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toTopOf="@+id/averageTemperature"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityName"
         tools:srcCompat="@mipmap/ic_launcher_foreground" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/chartCard"
-        style="@style/Widget.Material3.CardView.Elevated"
-        android:layout_width="match_parent"
-        android:layout_height="136dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
-        android:padding="9dp"
-        app:cardCornerRadius="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/averageTemperature"
-
-        app:layout_constraintVertical_bias="0.0"
-        tools:backgroundTint="@android:color/black">
-
-    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/lowestTemp"
@@ -96,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/card_text"
-        app:layout_constraintBottom_toTopOf="@+id/chartCard"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/averageTemperature"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -122,8 +97,8 @@
         style="@style/TextAppearance.Material3.HeadlineMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@color/card_text"
-        app:layout_constraintBottom_toTopOf="@+id/chartCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/averageTemperature"
         app:layout_constraintTop_toTopOf="parent"
