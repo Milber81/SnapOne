@@ -25,9 +25,9 @@ data class CityViewItem(
 }
 
 class CityMerger : Merger<ForecastData, City> {
-    override fun merge(forecastData: ForecastData, item2: City): City {
+    override fun merge(item1: ForecastData, item2: City): City {
         // Update the City object with the new forecastData
-        val itm = item2.copy(forecastData = forecastData)
+        val itm = item2.copy(forecastData = item1)
         return itm
     }
 }

@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.cities.collect {
+                println("oooooo =1=1=1=1=1=1=1=1 $it")
                 if (adapter == null) {
                     val layoutManager = LinearLayoutManager(this@MainActivity)
                     binding.rec.layoutManager = layoutManager

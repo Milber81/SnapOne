@@ -64,7 +64,7 @@ class MainViewModel(
         }
     }
 
-    private suspend fun fetchCityForecast(city: City) {
+    suspend fun fetchCityForecast(city: City) {
         viewModelScope.launch {
             println("ooooo ??????? $city")
             try {
