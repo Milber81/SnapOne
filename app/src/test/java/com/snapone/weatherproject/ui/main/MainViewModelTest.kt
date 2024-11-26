@@ -1,7 +1,7 @@
 package com.snapone.weatherproject.ui.main
 
 
-
+import android.os.Handler
 import android.os.Looper
 import com.snapone.weatherproject.base.ListMapper
 import com.snapone.weatherproject.base.Merger
@@ -17,8 +17,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import io.mockk.*
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import org.junit.Assert.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -37,18 +35,27 @@ class MainViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
+        mockkStatic(Looper::class)
+
+        val mockLooper = mockk<Looper>()
+        every { Looper.getMainLooper() } returns mockLooper
+        every { mockLooper.thread } returns Thread.currentThread()
+
+        mockkConstructor(Handler::class)
+        every { anyConstructed<Handler>().post(any()) } answers {
+            firstArg<Runnable>().run()
+            true
+        }
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-        mockkStatic(Looper::class) // This will mock Looper.getMainLooper()
-        every { Looper.getMainLooper() } returns mockk()
+
     }
 
     @Test
     fun `getCities fetches data and updates StateFlow correctly`() = runTest {
-        // Arrange
         val mockCities = listOf(
             City("City1", 33f, 44f, "Serbia", "RS"),
             City("City2", 34f, 45f, "Serbia", "RS")
@@ -78,7 +85,4 @@ class MainViewModelTest {
         coVerify(exactly = 1) { citiesRepository.getAllCities() }
         verify(exactly = 1) { listMapper.map(mockCities) }
     }
-
-
-
 }
