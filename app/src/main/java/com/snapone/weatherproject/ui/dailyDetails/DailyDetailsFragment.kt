@@ -34,13 +34,13 @@ class DailyDetailsFragment : BottomSheetDialogFragment() {
         val vm = UiModule.provideMainViewModel
 
         vm.data.observe(this){
-            println("oooooo --------------- >>>>> $it")
             binding.cityName.text = it.name
-            binding.averageTemperature.text = it.forecastData?.currentTemperature.toString()
-            binding.lowestTemp.text = it.forecastData?.low.toString()
-            binding.highestTemp.text = it.forecastData?.high.toString()
+            binding.averageTemperature.text = it.forecastData?.currentTemperature.toString() + "°C"
+            binding.lowestTemp.text = it.forecastData?.low.toString() + "°C"
+            binding.highestTemp.text = it.forecastData?.high.toString() + "°C"
             val url = getImageUrl(it.forecastData?.icon ?: "")
             loadIcon(url, binding.dayImage)
+            binding.precipitation.text = "Precipitation: " + it.forecastData?.precipitation.toString() + " mm/h"
         }
     }
 

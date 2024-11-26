@@ -30,8 +30,7 @@ class CityInfoService(
     /**
      * Fetches city information based on the provided latitude and longitude.
      *
-     * @param latitude The latitude of the city.
-     * @param longitude The longitude of the city.
+     * @param city city object.
      * @return A [WeatherResponse] object containing details of the city.
      * @throws NullPointerException if the API response body is null.
      */

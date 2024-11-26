@@ -45,14 +45,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             android:textColor="@color/card_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imgDelete"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Madrid, Spain" />
+            tools:text="Sabac, Serbia" />
 
         <ImageView
             android:id="@+id/imgDelete"

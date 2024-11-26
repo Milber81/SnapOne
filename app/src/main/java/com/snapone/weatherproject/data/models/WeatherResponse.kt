@@ -50,6 +50,10 @@ data class Rain(
     val `1h`: Double
 )
 
+data class Snow(
+    val `1h`: Double
+)
+
 data class Clouds(
     val all: Int
 )

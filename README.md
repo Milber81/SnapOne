@@ -15,7 +15,6 @@ Documentation can be build with executing gradlew task 'dokkaHtml'.
 
 [Main screen](app/src/main/java/com/snapone/weatherproject/WeatherApplication.kt)
 [Add city screen](app/src/main/java/com/snapone/weatherproject/AddCityFragment.kt)
-[UnitTests for reordering elements when added/removed to/from Favorites](app/src/test/java/com/snapone/weatherproject/ReorderingUnitTest.kt)
 
 # Setup
 

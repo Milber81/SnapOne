@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
 
-        createListeners()
-
         createObservers()
 
         binding.addCityButton.setOnClickListener {
@@ -73,16 +71,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.removeCity(city)
     }
 
-    private fun createListeners() {
-        binding.gpsButton.setOnClickListener {
-            if (viewModel.isNetworkAvailable(this)) {
-                checkGPSPermission()
-            } else {
-                showNoInternetMessage()
-            }
-        }
-    }
-
     private fun createObservers() {
         viewModel.loadingState.observe(this) {
             if (it)
@@ -93,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.cities.collect {
-                println("oooooo -------------->>> $it")
                 if (adapter == null) {
                     val layoutManager = LinearLayoutManager(this@MainActivity)
                     binding.rec.layoutManager = layoutManager
@@ -109,10 +96,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Collect in the observer
         lifecycleScope.launch {
             viewModel.cityUpdate.collect { cityUpdate ->
-                println("oooooo Updated city: $cityUpdate")
                 adapter?.updateCity(cityUpdate)
             }
         }
@@ -184,7 +169,11 @@ class MainActivity : AppCompatActivity() {
 
                     dailyDetailsFragment.show(supportFragmentManager, DailyDetailsFragment.TAG)
                 } ?: run {
-                    Toast.makeText(this@MainActivity, "Forecast data not available", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Forecast data not available",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

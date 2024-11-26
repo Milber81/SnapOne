@@ -31,10 +31,7 @@
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
-    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
-
-    </style>
-
+    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal"/>
 
     <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/ModalBottomSheet</item>

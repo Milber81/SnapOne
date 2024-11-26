@@ -24,7 +24,6 @@ class ForecastDataDtoMapper : SingleMapper<WeatherResponse, ForecastData> {
             precipitation = precipitation
         )
 
-        // Return a new City object with updated forecastData
         return forecastData
     }
 }
