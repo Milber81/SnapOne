@@ -56,7 +56,6 @@ class MainViewModel(
             _loadingState.postValue(true)
             val result = citiesRepository.getAllCities()
             _getCities.emit(listMapper.map(result))
-            println("ooooo vm vm $result")
             result.forEach { city ->
                 fetchCityForecast(city)
             }
@@ -64,9 +63,8 @@ class MainViewModel(
         }
     }
 
-    suspend fun fetchCityForecast(city: City) {
+    private suspend fun fetchCityForecast(city: City) {
         viewModelScope.launch {
-            println("ooooo ??????? $city")
             try {
                 val cityInfo = getCityInfoUseCase.getCityInfo(city)
                 val _city = merger.merge(cityInfo, city)

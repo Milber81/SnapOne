@@ -1,6 +1,5 @@
 package com.snapone.weatherproject.usecases
 
-import com.snapone.weatherproject.data.models.WeatherResponse
 import com.snapone.weatherproject.domain.City
 import com.snapone.weatherproject.domain.ForecastData
 import com.snapone.weatherproject.domain.repositories.CityInfoRepository

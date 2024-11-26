@@ -2,6 +2,7 @@ package com.snapone.weatherproject.ui.main
 
 
 
+import android.os.Looper
 import com.snapone.weatherproject.base.ListMapper
 import com.snapone.weatherproject.base.Merger
 import com.snapone.weatherproject.domain.City
@@ -16,6 +17,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import io.mockk.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collect
 import org.junit.Assert.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -39,6 +42,8 @@ class MainViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        mockkStatic(Looper::class) // This will mock Looper.getMainLooper()
+        every { Looper.getMainLooper() } returns mockk()
     }
 
     @Test
@@ -54,7 +59,6 @@ class MainViewModelTest {
             CityViewItem(2, "City2", "icon2", "34")
         )
 
-        // Mock repository and mapper behavior
         coEvery { citiesRepository.getAllCities() } returns mockCities
         every { listMapper.map(mockCities) } returns mockCityViewItems
 
@@ -66,15 +70,15 @@ class MainViewModelTest {
             merger = merger
         )
 
-        // Act
-        runCurrent() // Run all pending coroutines
+        runCurrent()
 
-        // Assert
         val emittedCities = viewModel.cities.first()
         assertEquals(mockCityViewItems, emittedCities)
 
         coVerify(exactly = 1) { citiesRepository.getAllCities() }
         verify(exactly = 1) { listMapper.map(mockCities) }
     }
+
+
 
 }
