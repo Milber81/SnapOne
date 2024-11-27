@@ -54,8 +54,11 @@ class CitiesAdapter(
         }
     }
 
-    fun swapData(items: List<CityViewItem>) {
-        cityInfoList = items.toMutableList()
-        notifyDataSetChanged()
+    fun removeCity(viewItem: CityViewItem){
+        val index = cityInfoList.indexOf(viewItem)
+        if (index != -1) {
+            cityInfoList.remove(viewItem)
+            notifyItemRemoved(index) // Notify only the specific item is removed
+        }
     }
 }

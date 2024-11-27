@@ -79,38 +79,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun createObservers() {
         viewModel.loadingState.observe(this) {
-            if (it)
-                showProgressBar()
-            else
-                hideProgressBar()
+            if (it) showProgressBar()
+            else hideProgressBar()
         }
 
         lifecycleScope.launch {
-            viewModel.cities.collect { it ->
+            viewModel.cities.collect { dataPair ->
 
                 if (adapter == null) {
                     val layoutManager = LinearLayoutManager(this@MainActivity)
                     binding.rec.layoutManager = layoutManager
                 }
 
-                println("oooooo --------------- $it")
+                println("oooooo --------------- $dataPair")
 
-                it.let { cityViewItems ->
+                dataPair.second.let { cityViewItems ->
 
-                    adapter?.let { adapter ->
-                        val shouldAddItems = cityViewItems.size == 1
-                        if (shouldAddItems) {
-                            adapter.updateCity(cityViewItems[0])
-                        } else {
-                            adapter.swapData(cityViewItems)
+                    when (dataPair.first) {
+                        is UpdateDataPolicy.ADD -> adapter?.updateCity(cityViewItems[0])
+                        is UpdateDataPolicy.REMOVE -> adapter?.removeCity(cityViewItems[0])
+                        is UpdateDataPolicy.FULL_SOURCE -> {
+                            adapter = CitiesAdapter(cityViewItems.toMutableList(), {
+                                showDailyDetails(it)
+                            }, {
+                                removeCity(it)
+                            })
+                            binding.rec.adapter = adapter
                         }
-                    } ?: run {
-                        adapter = CitiesAdapter(cityViewItems.toMutableList(), {
-                            showDailyDetails(it)
-                        }, {
-                            removeCity(it)
-                        })
-                        binding.rec.adapter = adapter
                     }
                 }
             }
@@ -170,9 +165,7 @@ class MainActivity : AppCompatActivity() {
                     dailyDetailsFragment.show(supportFragmentManager, DailyDetailsFragment.TAG)
                 } ?: run {
                     Toast.makeText(
-                        this@MainActivity,
-                        "Forecast data not available",
-                        Toast.LENGTH_LONG
+                        this@MainActivity, "Forecast data not available", Toast.LENGTH_LONG
                     ).show()
                 }
             }
