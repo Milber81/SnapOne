@@ -80,7 +80,7 @@ class MainViewModelTest {
         runCurrent()
 
         val emittedCities = viewModel.cities.first()
-        assertEquals(mockCityViewItems, emittedCities)
+        assertEquals(mockCityViewItems, emittedCities.second)
 
         coVerify(exactly = 1) { citiesRepository.getAllCities() }
         verify(exactly = 1) { listMapper.map(mockCities) }
