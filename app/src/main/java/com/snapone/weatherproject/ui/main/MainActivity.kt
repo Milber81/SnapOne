@@ -96,13 +96,15 @@ class MainActivity : AppCompatActivity() {
                     when (dataPair.first) {
                         is UpdateDataPolicy.ADD -> adapter?.updateCity(cityViewItems[0])
                         is UpdateDataPolicy.REMOVE -> adapter?.removeCity(cityViewItems[0])
-                        is UpdateDataPolicy.FULL_SOURCE -> {
-                            adapter = CitiesAdapter(cityViewItems.toMutableList(), {
-                                showDailyDetails(it)
-                            }, {
-                                removeCity(it)
-                            })
-                            binding.rec.adapter = adapter
+                        is UpdateDataPolicy.SOURCE -> {
+                            if(adapter == null && cityViewItems.isNotEmpty()) {
+                                adapter = CitiesAdapter(cityViewItems.toMutableList(), {
+                                    showDailyDetails(it)
+                                }, {
+                                    removeCity(it)
+                                })
+                                binding.rec.adapter = adapter
+                            }
                         }
                     }
                 }
@@ -148,10 +150,10 @@ class MainActivity : AppCompatActivity() {
     private fun showDailyDetails(
         cityViewItem: CityViewItem
     ) {
-
         lifecycleScope.launch {
             viewModel.city.collect { city ->
                 city?.let {
+
                     sharedViewModel.postCity(it)
                     this.cancel() // Cancels the coroutine
                     val dailyDetailsFragment = DailyDetailsFragment()
@@ -165,6 +167,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(
                         this@MainActivity, "Forecast data not available", Toast.LENGTH_LONG
                     ).show()
+                    cancel()
                 }
             }
         }
