@@ -11,7 +11,8 @@ class ForecastDataDtoMapper : SingleMapper<WeatherResponse, ForecastData> {
         val currentTemperature = item.main.temp
         val lowTemperature = item.main.temp_min
         val highTemperature = item.main.temp_max
-        val precipitation = item.rain?.`1h`?.toInt() ?: 0
+        val precipitationLevel = item.rain?.`1h`?.toInt() ?: (item.snow?.`1h`?.toInt() ?: 0)
+        val precipitationType = item.rain?.let { "Rain" } ?: "Snow"
 
         val forecastData = ForecastData(
             weather = weatherDescription,
@@ -19,7 +20,8 @@ class ForecastDataDtoMapper : SingleMapper<WeatherResponse, ForecastData> {
             currentTemperature = currentTemperature.toInt(),
             low = lowTemperature.toInt(),
             high = highTemperature.toInt(),
-            precipitation = precipitation
+            precipitationLevel = precipitationLevel,
+            precipitationType = precipitationType
         )
 
         return forecastData

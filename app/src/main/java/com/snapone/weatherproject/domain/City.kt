@@ -19,5 +19,6 @@ data class ForecastData(
     val currentTemperature: Int,
     val low: Int,
     val high: Int,
-    val precipitation: Int
+    val precipitationLevel: Int,
+    val precipitationType: String
 )
