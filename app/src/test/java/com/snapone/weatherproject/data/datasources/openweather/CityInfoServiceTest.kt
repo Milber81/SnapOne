@@ -30,7 +30,7 @@ class CityInfoServiceTest {
     @Before
     fun setup() {
         apiClient = mockk()
-        dispatcher = Dispatchers.Unconfined // Use Unconfined for testing coroutines
+        dispatcher = Dispatchers.Unconfined
         mapper = mockk()
 
         cityInfoService = CityInfoService(apiClient, dispatcher, mapper)

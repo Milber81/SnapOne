@@ -58,10 +58,8 @@ class ForecastDataDtoMapperTest {
 
     @Test
     fun `map extracts weather data correctly with rain data`() {
-        // Act
         val result = forecastDataDtoMapper.map(mockWeatherResponse)
 
-        // Assert
         assertEquals("Clear sky", result.weather)
         assertEquals("01d", result.icon)
         assertEquals(25, result.currentTemperature)
@@ -72,21 +70,18 @@ class ForecastDataDtoMapperTest {
 
     @Test
     fun `map handles null rain data correctly`() {
-        // Act
         val result = forecastDataDtoMapper.map(mockWeatherResponseNoRain)
 
-        // Assert
         assertEquals("Partly cloudy", result.weather)
         assertEquals("02d", result.icon)
         assertEquals(22, result.currentTemperature)
         assertEquals(16, result.low)
         assertEquals(28, result.high)
-        assertEquals(0, result.precipitation)  // No rain, should be 0
+        assertEquals(0, result.precipitation)
     }
 
     @Test
     fun `map returns default values when weather or icon is missing`() {
-        // Arrange: Create a response with missing weather and icon data
         val mockEmptyWeatherResponse = WeatherResponse(
             coord = Coord(12.34, 56.78),
             weather = emptyList(),
@@ -104,15 +99,13 @@ class ForecastDataDtoMapperTest {
             cod = 200
         )
 
-        // Act
         val result = forecastDataDtoMapper.map(mockEmptyWeatherResponse)
 
-        // Assert
-        assertEquals("Unknown weather", result.weather)  // Default to "Unknown weather"
-        assertEquals("", result.icon)  // Default to empty icon
+        assertEquals("Unknown weather", result.weather)
+        assertEquals("", result.icon)
         assertEquals(20, result.currentTemperature)
         assertEquals(15, result.low)
         assertEquals(25, result.high)
-        assertEquals(0, result.precipitation)  // No rain
+        assertEquals(0, result.precipitation)
     }
 }

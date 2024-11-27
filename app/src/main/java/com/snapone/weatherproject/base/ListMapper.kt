@@ -32,7 +32,7 @@ fun interface SingleMapper<in Dto: Any, out Model: Any> {
      * Transforms a given DTO to the corresponding Model.
      * This method should define the logic for mapping one type to another.
      *
-     * @param items the input data of type [Dto] to be mapped
+     * @param item the input data of type [Dto] to be mapped
      * @return the transformed data of type [Model]
      */
     fun map(item: Dto): Model

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.snapone.weatherproject.R
@@ -13,6 +14,7 @@ import com.snapone.weatherproject.databinding.FragmentDailyDetailsBinding
 import com.snapone.weatherproject.ui.UiModule
 import com.snapone.weatherproject.ui.helpers.getImageUrl
 import com.snapone.weatherproject.ui.helpers.loadIcon
+import kotlinx.coroutines.launch
 
 class DailyDetailsFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentDailyDetailsBinding
@@ -33,14 +35,18 @@ class DailyDetailsFragment : BottomSheetDialogFragment() {
 
         val vm = UiModule.provideMainViewModel
 
-        vm.data.observe(this){
-            binding.cityName.text = it.name
-            binding.averageTemperature.text = it.forecastData?.currentTemperature.toString() + "°C"
-            binding.lowestTemp.text = it.forecastData?.low.toString() + "°C"
-            binding.highestTemp.text = it.forecastData?.high.toString() + "°C"
-            val url = getImageUrl(it.forecastData?.icon ?: "")
-            loadIcon(url, binding.dayImage)
-            binding.precipitation.text = "Precipitation: " + it.forecastData?.precipitation.toString() + " mm/h"
+        lifecycleScope.launch {
+            vm.data.collect {
+                binding.cityName.text = it?.name
+                binding.averageTemperature.text =
+                    it?.forecastData?.currentTemperature.toString() + "°C"
+                binding.lowestTemp.text = it?.forecastData?.low.toString() + "°C"
+                binding.highestTemp.text = it?.forecastData?.high.toString() + "°C"
+                val url = getImageUrl(it?.forecastData?.icon ?: "")
+                loadIcon(url, binding.dayImage)
+                binding.precipitation.text =
+                    "Precipitation: " + it?.forecastData?.precipitation.toString() + " mm/h"
+            }
         }
     }
 

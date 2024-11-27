@@ -1,9 +1,20 @@
 package com.snapone.weatherproject.ui
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.snapone.weatherproject.domain.City
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 
 class SharedViewModel : ViewModel() {
-    var data = MutableLiveData<City>()
+    private val _data = MutableSharedFlow<City?>(replay = 1)
+    val data: SharedFlow<City?> get() = _data
+
+    fun postCity(city: City?) {
+        viewModelScope.launch {
+            println("ooooo ??? > > > > ????")
+            _data.emit(city) // Emit the data to the flow
+        }
+    }
 }

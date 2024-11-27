@@ -1,32 +1,24 @@
 package com.snapone.weatherproject.ui.main
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.Priority
-import com.snapone.weatherproject.R
 import com.snapone.weatherproject.databinding.ActivityMainBinding
 import com.snapone.weatherproject.domain.City
 import com.snapone.weatherproject.ui.AddCityFragment
 import com.snapone.weatherproject.ui.SharedViewModel
 import com.snapone.weatherproject.ui.UiModule
 import com.snapone.weatherproject.ui.dailyDetails.DailyDetailsFragment
-import com.snapone.weatherproject.usecases.TurnOnGpsUseCase
-import com.snapone.weatherproject.utils.GPS_REQUEST_CODE
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
@@ -46,9 +38,23 @@ class MainActivity : AppCompatActivity() {
     private var isFirstAppStart: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.rec) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+                topMargin = insets.top
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
 
         createObservers()
 
@@ -108,32 +114,12 @@ class MainActivity : AppCompatActivity() {
 
         if (viewModel.isNetworkAvailable(this)) {
             if (isFirstAppStart) {
-                //Selects the user's preferred language as default language
                 AppCompatDelegate.getApplicationLocales()
 
                 showSpecialMessage()
             }
         } else {
             showNoInternetMessage()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            GPS_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    val locationRequestBuilder: LocationRequest.Builder =
-                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
-                    locationRequestBuilder.setMinUpdateIntervalMillis(2000)
-
-                    val locationRequest: LocationRequest = locationRequestBuilder.build()
-
-                }
-                return
-            }
         }
     }
 
@@ -159,8 +145,8 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.city.collect { city ->
                 city?.let {
-                    sharedViewModel.data.postValue(city)
-                    this.cancel() // Cancels the collection
+                    sharedViewModel.postCity(it)
+                    this.cancel() // Cancels the coroutine
                     val dailyDetailsFragment = DailyDetailsFragment()
 
                     if (dailyDetailsFragment.isAdded) {
@@ -188,34 +174,6 @@ class MainActivity : AppCompatActivity() {
 
         super.onDestroy()
         Glide.get(this).clearMemory()
-    }
-
-    private fun checkGPSPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val locationRequestBuilder: LocationRequest.Builder =
-                LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
-            locationRequestBuilder.setMinUpdateIntervalMillis(2000)
-
-            val locationRequest: LocationRequest = locationRequestBuilder.build()
-            if (!isGPSEnabled()) {
-                val turnOnGpsUseCase = TurnOnGpsUseCase(this)
-                turnOnGpsUseCase.turnOnGPS(locationRequest)
-            }
-        } else {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), GPS_REQUEST_CODE
-            )
-        }
-    }
-
-    private fun isGPSEnabled(): Boolean {
-        val locationManager: LocationManager =
-            this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 }
 

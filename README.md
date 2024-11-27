@@ -24,6 +24,12 @@ App is using next frameworks:
 • Glide
 • Preferences Data Store
 
+# Func️ional test
+
+App was test with next devices:
+- Samsung S23 A14
+- Samsung S21 FE A14
+- Emulator A15
 
 # Known build problem ⚠️⚠️⚠️
 

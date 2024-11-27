@@ -37,6 +37,16 @@
 
     <string name="more_locations">More locations</string>
     <string name="touch_to_save_location">Search city</string>
+    <string name="state_abbr">State abbr</string>
+    <string name="state">State</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="add_new_city">Add new city</string>
+    <string name="weather_icon">Weather icon</string>
+    <string name="delete_icon">Delete icon</string>
+    <string name="lot_temp">Lot temp</string>
+    <string name="high_temp">High temp</string>
+    <string name="highest_temp">Highest temp</string>
 
     <string-array name="days_of_week">
         <item>Sunday</item>

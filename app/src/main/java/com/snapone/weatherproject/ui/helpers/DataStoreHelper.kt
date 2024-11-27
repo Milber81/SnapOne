@@ -2,13 +2,11 @@ package com.snapone.weatherproject.ui.helpers
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.snapone.weatherproject.domain.City
 import com.snapone.weatherproject.domain.repositories.CitiesRepository
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
@@ -17,17 +15,9 @@ class DataStoreHelper(
     private val dataStore: DataStore<Preferences>
 ) : CitiesRepository {
     companion object {
-        val FIRST_APP_START_KEY = booleanPreferencesKey("isFirstAppStart")
-
         val SAVED_CITIES = stringPreferencesKey("cities")
     }
 
-
-    suspend fun writeIsFirstAppStart(isFirstAppStart: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[FIRST_APP_START_KEY] = isFirstAppStart
-        }
-    }
 
     override suspend fun getAllCities(): List<City> {
         val defaultCityList = listOf(

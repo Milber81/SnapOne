@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.snapone.weatherproject.base.ListMapper
 import com.snapone.weatherproject.base.Merger
-import com.snapone.weatherproject.data.models.WeatherResponse
 import com.snapone.weatherproject.domain.City
 import com.snapone.weatherproject.domain.ForecastData
 import com.snapone.weatherproject.domain.repositories.CitiesRepository
@@ -41,7 +40,7 @@ class MainViewModel(
     private val _getCities = MutableStateFlow<List<CityViewItem>>(emptyList())
     val cities: StateFlow<List<CityViewItem>> get() = _getCities
 
-    private val _cityUpdate = MutableSharedFlow<CityViewItem>()  // No state, just events
+    private val _cityUpdate = MutableSharedFlow<CityViewItem>()
     val cityUpdate: SharedFlow<CityViewItem> get() = _cityUpdate
 
     private val _loadingState = MutableLiveData<Boolean>()
@@ -67,9 +66,9 @@ class MainViewModel(
         viewModelScope.launch {
             try {
                 val cityInfo = getCityInfoUseCase.getCityInfo(city)
-                val _city = merger.merge(cityInfo, city)
-                _cityUpdate.emit(singleMapper.map(_city))
-                citySet.add(_city)
+                val element = merger.merge(cityInfo, city)
+                _cityUpdate.emit(singleMapper.map(element))
+                citySet.add(element)
             } catch (e: Exception) {
                 println("oooooo ooError fetching forecast for ${city.name}: $e")
             }

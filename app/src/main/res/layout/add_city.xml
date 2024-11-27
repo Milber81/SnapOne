@@ -20,7 +20,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Add new city"
+        android:text="@string/add_new_city"
         android:textStyle="bold"
         android:textSize="16sp"
         android:layout_marginBottom="10dp"
@@ -30,37 +30,46 @@
         android:layout_width="match_parent"
         android:id="@+id/edtCityName"
         android:hint="City name"
+        android:inputType="text"
+        android:autofillHints="postalAddressLocality"
         android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_width="match_parent"
         android:id="@+id/edtLatitude"
-        android:hint="Latitude"
+        android:hint="@string/latitude"
         android:layout_marginBottom="10dp"
         android:inputType="numberDecimal"
-        android:layout_height="wrap_content"/>
+        android:autofillHints="latitude"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_width="match_parent"
         android:id="@+id/edtLongitude"
-        android:hint="Longitude"
+        android:hint="@string/longitude"
         android:layout_marginBottom="10dp"
         android:inputType="numberDecimal"
-        android:layout_height="wrap_content"/>
+        android:autofillHints="longitude"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_width="match_parent"
         android:id="@+id/edtState"
-        android:hint="State"
+        android:inputType="textCapCharacters"
+        android:hint="@string/state"
+        android:autofillHints="postalAddressRegion"
+        android:maxLength="20"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:layout_width="match_parent"
         android:id="@+id/edtStateAbbr"
-        android:hint="State abbr"
+        android:hint="@string/state_abbr"
+        android:autofillHints="postalAddressRegion"
         android:maxLength="2"
+        android:inputType="textCapCharacters"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"/>
 
