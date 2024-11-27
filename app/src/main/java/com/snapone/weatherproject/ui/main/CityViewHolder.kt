@@ -23,4 +23,11 @@ class CityViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.setOnClickListener { onClickListener(viewItem) }
         binding.imgDelete.setOnClickListener { onRemoveItemListener(viewItem) }
     }
+
+    fun updateTextAndIcon( viewItem: CityViewItem){
+        binding.temperature.text = viewItem.temperature
+
+        val url = getImageUrl(viewItem.icon)
+        loadIcon(url, binding.imageView)
+    }
 }

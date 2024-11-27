@@ -16,6 +16,25 @@ class CitiesAdapter(
         return CityViewHolder(layoutInflater.inflate(R.layout.city_item, parent, false))
     }
 
+    override fun onBindViewHolder(
+        holder: CityViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            // No payloads, bind full view
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            // Handle partial updates (payloads)
+            val itemCityInfo = cityInfoList[position]
+            payloads.forEach { payload ->
+                if (payload is Boolean && payload == true) {
+                    holder.updateTextAndIcon(itemCityInfo)
+                }
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
         val itemCityInfo = cityInfoList[position]
 
@@ -28,14 +47,14 @@ class CitiesAdapter(
         val index = cityInfoList.indexOf(viewItem)
         if (index != -1) {
             cityInfoList[index] = viewItem
-            notifyItemChanged(index) // Notify only the specific item that was changed
+            notifyItemChanged(index, true) // Notify only the specific item that was changed
         } else {
             cityInfoList.add(viewItem)
             notifyDataSetChanged()
         }
     }
 
-    fun swapData(items: List<CityViewItem>){
+    fun swapData(items: List<CityViewItem>) {
         cityInfoList = items.toMutableList()
         notifyDataSetChanged()
     }

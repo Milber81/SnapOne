@@ -88,6 +88,7 @@ class AddCityFragment : BottomSheetDialogFragment() {
                 text = city.name
                 textSize = 16f
                 setPadding(16, 16, 16, 16)
+                // Set a background with a solid color and rounded corners
                 setOnClickListener {
                     println("Clicked city: $city")
                     binding.edtCityName.setText(city.name)
@@ -95,6 +96,7 @@ class AddCityFragment : BottomSheetDialogFragment() {
                     binding.edtLongitude.setText(city.longitude.toString())
                     binding.edtState.setText(city.country)
                     binding.edtStateAbbr.setText(city.countryAbbr)
+
                     val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(binding.edtState.windowToken, 0)
                 }
