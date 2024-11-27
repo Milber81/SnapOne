@@ -1,16 +1,22 @@
 package com.snapone.weatherproject.ui
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.snapone.weatherproject.R
 import com.snapone.weatherproject.databinding.AddCityBinding
 import com.snapone.weatherproject.domain.City
+import com.snapone.weatherproject.ui.helpers.cities
 import com.snapone.weatherproject.ui.main.MainActivity
 
 class AddCityFragment : BottomSheetDialogFragment() {
@@ -42,6 +48,8 @@ class AddCityFragment : BottomSheetDialogFragment() {
 
         binding.edtCityName.requestFocus()
 
+        fillCityViews()
+
         binding.bntApply.setOnClickListener {
 
             val cityName = binding.edtCityName.text
@@ -68,6 +76,33 @@ class AddCityFragment : BottomSheetDialogFragment() {
             (requireActivity() as MainActivity).addCity(city)
             dismiss()
         }
+    }
+
+    private fun fillCityViews(){
+        val linearLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+        }
+
+        cities.forEach { city ->
+            val textView = TextView(requireContext()).apply {
+                text = city.name
+                textSize = 16f
+                setPadding(16, 16, 16, 16)
+                setOnClickListener {
+                    println("Clicked city: $city")
+                    binding.edtCityName.setText(city.name)
+                    binding.edtLatitude.setText(city.latitude.toString())
+                    binding.edtLongitude.setText(city.longitude.toString())
+                    binding.edtState.setText(city.country)
+                    binding.edtStateAbbr.setText(city.countryAbbr)
+                    val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(binding.edtState.windowToken, 0)
+                }
+            }
+            linearLayout.addView(textView)
+        }
+
+        binding.cities.addView(linearLayout)
     }
 
 }

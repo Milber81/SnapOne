@@ -29,6 +29,14 @@ class CitiesAdapter(
         if (index != -1) {
             cityInfoList[index] = viewItem
             notifyItemChanged(index) // Notify only the specific item that was changed
+        } else {
+            cityInfoList.add(viewItem)
+            notifyDataSetChanged()
         }
+    }
+
+    fun swapData(items: List<CityViewItem>){
+        cityInfoList = items.toMutableList()
+        notifyDataSetChanged()
     }
 }

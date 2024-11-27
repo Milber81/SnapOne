@@ -20,26 +20,15 @@ class DataStoreHelper(
 
 
     override suspend fun getAllCities(): List<City> {
-        val defaultCityList = listOf(
-            City(
-                "San Francisco", latitude = 37.7749f,
-                longitude = -122.4194f, "California", "CA"
-            ),
-            City(
-                "New York", latitude = 40.7128f,
-                longitude = -74.0060f, "New York", "NY"
-            ),
-            City(
-                "Salt Lake City", latitude = 40.7608f,
-                longitude = -111.8910f, "Utah", "UT"
-            ),
-        )
+        val defaultCityList = cities.take(3)
         val json = dataStore.data.first()[SAVED_CITIES] ?: return defaultCityList
         return Json.decodeFromString(json)
     }
 
     override suspend fun addCity(city: City) {
         val currentCities = getAllCities().toMutableList()
+        if(currentCities.contains(city))
+            return
         currentCities.add(city)
         saveCities(currentCities)
     }

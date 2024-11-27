@@ -86,18 +86,32 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            viewModel.cities.collect {
+            viewModel.cities.collect { it ->
+
                 if (adapter == null) {
                     val layoutManager = LinearLayoutManager(this@MainActivity)
                     binding.rec.layoutManager = layoutManager
                 }
-                it.let {
-                    adapter = CitiesAdapter(it.toMutableList(), {
-                        showDailyDetails(it)
-                    }, {
-                        removeCity(it)
-                    })
-                    binding.rec.adapter = adapter
+
+                println("oooooo --------------- $it")
+
+                it.let { cityViewItems ->
+
+                    adapter?.let { adapter ->
+                        val shouldAddItems = cityViewItems.size == 1
+                        if (shouldAddItems) {
+                            adapter.updateCity(cityViewItems[0])
+                        } else {
+                            adapter.swapData(cityViewItems)
+                        }
+                    } ?: run {
+                        adapter = CitiesAdapter(cityViewItems.toMutableList(), {
+                            showDailyDetails(it)
+                        }, {
+                            removeCity(it)
+                        })
+                        binding.rec.adapter = adapter
+                    }
                 }
             }
         }

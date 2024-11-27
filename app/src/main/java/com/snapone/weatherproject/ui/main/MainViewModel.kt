@@ -78,13 +78,15 @@ class MainViewModel(
     fun addCity(city: City) {
         viewModelScope.launch {
             citiesRepository.addCity(city)
-            getCities()
+            _getCities.emit(listMapper.map(listOf(city)))
+            fetchCityForecast(city)
         }
     }
 
     fun removeCity(city: CityViewItem) {
         viewModelScope.launch {
             val mCity = citiesRepository.getAllCities().firstOrNull { it.name == city.name }
+            println("oooooo ??????????? mCity $mCity")
             mCity?.let {
                 citiesRepository.removeCity(it)
             }
@@ -98,8 +100,10 @@ class MainViewModel(
                 _city.emit(null)
             }
             else {
-                val mCity = citySet.first { it.name == cityViewItem.name }
-                _city.emit(mCity)
+                val mCity = citySet.firstOrNull { it.name == cityViewItem.name }
+                mCity?.let {
+                    _city.emit(mCity)
+                }
             }
         }
     }
