@@ -15,9 +15,7 @@ import com.snapone.weatherproject.usecases.GetCityInfoUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 sealed class UpdateDataPolicy{
@@ -34,8 +32,6 @@ class MainViewModel(
     private val merger: Merger<ForecastData, City>
 ) : ViewModel() {
 
-    private val singleMapper = CityViewMapper()
-
     private val citySet: MutableSet<City> by lazy {
         mutableSetOf()
     }
@@ -43,11 +39,8 @@ class MainViewModel(
     private val _city = MutableSharedFlow<City?>()
     val city: SharedFlow<City?> get() = _city
 
-    private val _getCities = MutableStateFlow<Pair<UpdateDataPolicy, List<CityViewItem>>>(Pair(UpdateDataPolicy.SOURCE, emptyList()))
-    val cities: StateFlow<Pair<UpdateDataPolicy, List<CityViewItem>>> get() = _getCities
-
-    private val _cityUpdate = MutableSharedFlow<CityViewItem>()
-    val cityUpdate: SharedFlow<CityViewItem> get() = _cityUpdate
+    private val _getCities = MutableSharedFlow<Pair<UpdateDataPolicy, List<CityViewItem>>>()
+    val cities: SharedFlow<Pair<UpdateDataPolicy, List<CityViewItem>>> get() = _getCities
 
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState = _loadingState
@@ -73,7 +66,8 @@ class MainViewModel(
             try {
                 val cityInfo = getCityInfoUseCase.getCityInfo(city)
                 val element = merger.merge(cityInfo, city)
-                _cityUpdate.emit(singleMapper.map(element))
+                val viewItem = listMapper.map(listOf(element))
+                _getCities.emit(Pair(UpdateDataPolicy.ADD, viewItem))
                 citySet.add(element)
             } catch (e: Exception) {
                 println("oooooo ooError fetching forecast for ${city.name}: $e")
@@ -94,7 +88,8 @@ class MainViewModel(
             val mCity = citiesRepository.getAllCities().firstOrNull { it.name == city.name }
             mCity?.let {
                 citiesRepository.removeCity(it)
-                _getCities.emit(Pair(UpdateDataPolicy.REMOVE, listMapper.map(listOf(mCity))))
+                citySet.add(it)
+                _getCities.emit(Pair(UpdateDataPolicy.REMOVE, listOf(city)))
             }
         }
     }

@@ -5,6 +5,7 @@ import com.snapone.weatherproject.data.models.Clouds
 import com.snapone.weatherproject.data.models.Coord
 import com.snapone.weatherproject.data.models.Main
 import com.snapone.weatherproject.data.models.Rain
+import com.snapone.weatherproject.data.models.Snow
 import com.snapone.weatherproject.data.models.Sys
 import com.snapone.weatherproject.data.models.Weather
 import com.snapone.weatherproject.data.models.WeatherResponse
@@ -25,6 +26,7 @@ class ForecastDataDtoMapperTest {
         visibility = 10000,
         wind = Wind(speed = 5.0, deg = 200, gust = 10.0),
         rain = Rain(`1h` = 2.5),
+        snow = Snow(`1h` = 2.5),
         clouds = Clouds(all = 0),
         dt = 1638316800,
         sys = Sys(type = 1, id = 1, country = "US", sunrise = 1638295600, sunset = 1638347600),
@@ -42,6 +44,7 @@ class ForecastDataDtoMapperTest {
         visibility = 10000,
         wind = Wind(speed = 3.0, deg = 180, gust = 5.0),
         rain = null,
+        snow = Snow(`1h` = 2.5),
         clouds = Clouds(all = 50),
         dt = 1638316800,
         sys = Sys(type = 1, id = 1, country = "US", sunrise = 1638295600, sunset = 1638347600),
@@ -65,7 +68,7 @@ class ForecastDataDtoMapperTest {
         assertEquals(25, result.currentTemperature)
         assertEquals(18, result.low)
         assertEquals(30, result.high)
-        assertEquals(2, result.precipitation)  // Rain is 2.5mm, should be converted to 2
+        assertEquals(2, result.precipitationLevel)  // Rain is 2.5mm, should be converted to 2
     }
 
     @Test
@@ -77,7 +80,7 @@ class ForecastDataDtoMapperTest {
         assertEquals(22, result.currentTemperature)
         assertEquals(16, result.low)
         assertEquals(28, result.high)
-        assertEquals(0, result.precipitation)
+        assertEquals(2, result.precipitationLevel)
     }
 
     @Test
@@ -90,6 +93,7 @@ class ForecastDataDtoMapperTest {
             visibility = 10000,
             wind = Wind(speed = 5.0, deg = 200, gust = 10.0),
             rain = Rain(`1h` = 0.0),
+            snow = Snow(`1h` = 0.0),
             clouds = Clouds(all = 0),
             dt = 1638316800,
             sys = Sys(type = 1, id = 1, country = "US", sunrise = 1638295600, sunset = 1638347600),
@@ -106,6 +110,6 @@ class ForecastDataDtoMapperTest {
         assertEquals(20, result.currentTemperature)
         assertEquals(15, result.low)
         assertEquals(25, result.high)
-        assertEquals(0, result.precipitation)
+        assertEquals(0, result.precipitationLevel)
     }
 }

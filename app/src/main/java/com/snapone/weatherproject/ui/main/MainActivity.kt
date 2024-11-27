@@ -110,12 +110,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.cityUpdate.collect { cityUpdate ->
-                adapter?.updateCity(cityUpdate)
-            }
-        }
     }
 
     override fun onResume() {

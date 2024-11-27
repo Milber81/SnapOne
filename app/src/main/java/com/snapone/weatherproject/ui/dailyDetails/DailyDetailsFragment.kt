@@ -45,7 +45,7 @@ class DailyDetailsFragment : BottomSheetDialogFragment() {
                 val url = getImageUrl(it?.forecastData?.icon ?: "")
                 loadIcon(url, binding.dayImage)
                 binding.precipitation.text =
-                    "Precipitation: " + it?.forecastData?.precipitation.toString() + " mm/h"
+                    "Precipitation:\n ${it?.forecastData?.precipitationType} ${it?.forecastData?.precipitationLevel} mm/h"
             }
         }
     }
