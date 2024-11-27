@@ -91,8 +91,6 @@ class MainActivity : AppCompatActivity() {
                     binding.rec.layoutManager = layoutManager
                 }
 
-                println("oooooo --------------- $dataPair")
-
                 dataPair.second.let { cityViewItems ->
 
                     when (dataPair.first) {

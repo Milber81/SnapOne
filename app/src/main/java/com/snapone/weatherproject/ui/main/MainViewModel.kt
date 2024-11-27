@@ -92,7 +92,6 @@ class MainViewModel(
     fun removeCity(city: CityViewItem) {
         viewModelScope.launch {
             val mCity = citiesRepository.getAllCities().firstOrNull { it.name == city.name }
-            println("oooooo ??????????? mCity $mCity")
             mCity?.let {
                 citiesRepository.removeCity(it)
                 _getCities.emit(Pair(UpdateDataPolicy.REMOVE, listMapper.map(listOf(mCity))))

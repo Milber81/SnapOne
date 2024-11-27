@@ -13,8 +13,7 @@ class SharedViewModel : ViewModel() {
 
     fun postCity(city: City?) {
         viewModelScope.launch {
-            println("ooooo ??? > > > > ????")
-            _data.emit(city) // Emit the data to the flow
+            _data.emit(city)
         }
     }
 }

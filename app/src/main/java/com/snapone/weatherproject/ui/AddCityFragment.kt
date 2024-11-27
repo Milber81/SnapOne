@@ -90,7 +90,6 @@ class AddCityFragment : BottomSheetDialogFragment() {
                 setPadding(16, 16, 16, 16)
                 // Set a background with a solid color and rounded corners
                 setOnClickListener {
-                    println("Clicked city: $city")
                     binding.edtCityName.setText(city.name)
                     binding.edtLatitude.setText(city.latitude.toString())
                     binding.edtLongitude.setText(city.longitude.toString())
