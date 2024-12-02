@@ -1,5 +1,11 @@
 # Gradle files
 .gradle/
+
+gradle/
+gradle/**
+!gradle/wrapper/
+!gradle/wrapper/**
+
 build/
 */build/
 

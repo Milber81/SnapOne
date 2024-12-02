@@ -18,7 +18,8 @@ class CityViewMapperTest {
             currentTemperature = 25,
             low = 18,
             high = 30,
-            precipitation = 2
+            precipitationLevel = 2,
+            precipitationType = "Rain"
         )
 
         val city = City(
